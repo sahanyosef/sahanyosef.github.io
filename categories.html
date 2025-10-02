@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sahan Yosef | Categories</title>
+    <meta name="description" content="Categories.">
+    <meta name="keywords" content="Trinitarian, theology, Christianity, articles, archives, faith, Jesus, God">
+    <link rel="canonical" href="https://trinitarianbeliever.github.io/">
+    <link rel="stylesheet" href="./style/styles.css">
+    <link rel="icon" type="image/x-icon" href="./img/favicon.jpg">
+</head>
+<body>
+    <!-- STEP 1: Header Section -->
+    <header class="header">
+        <!-- New wrapper to center content and apply max-width -->
+        <div class="header-content">
+            <!-- H1 for site identity (SEO) -->
+            <a href="./index.html" class="logo">
+                <h1>Trinitarian Believer</h1>
+            </a>
+            
+            <!-- 
+            PURE CSS NAV TOGGLE Elements: 
+            1. Hidden Checkbox: Holds the state (checked/open). The .sr-only class hides it visually.
+            2. Label: The visible hamburger icon that toggles the checkbox state.
+            3. Navigation: The element whose visibility is controlled by the checkbox's :checked state in CSS.
+            -->
+            <input type="checkbox" id="menu-toggle-checkbox" class="sr-only">
+            
+            <label for="menu-toggle-checkbox" class="menu-toggle" aria-label="Toggle navigation">&#9776;</label>
+            
+            <nav class="main-nav" id="mainNav">
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <li><a href="#">Categories</a></li>
+                    <li><a href="./books.html">Books</a></li>
+                    <li><a href="./about.html">About</a></li>
+                    <li><a href="./search.html">Search</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- STEP 2: Main Content - Article Cards -->
+    <main class="articles-container">
+        
+        <!-- H2 for section title: Great for SEO! -->
+        <h2 class="section-heading">Categories</h2>
+
+        <section class="article-grid">
+            <!-- Article Cards (12 total) -->
+            
+            <!-- Row 1 (4 articles) -->
+            <article class="article-card">
+                <a href="./thearchive/eternelbegetting/handle.html" class="category">The Eternal Generation of the Son</a>
+            </article>
+            <article class="article-card">
+                <a href="#" class="category">Comman Objections</a>
+            </article>
+            <article class="article-card">
+                <a href="#" class="category">Objections to The Trinity</a>
+            </article>
+
+        </section>
+
+        <!-- Pagination Controls -->
+        <div class="pagination">
+            <a href="#" class="page-button" aria-label="Previous Page">← Previous</a>
+            <span class="page-info">PAGE 1</span>
+            <a href="#" class="page-button" aria-label="Next Page">Next →</a>
+        </div>
+    </main>
+</body>
+</html>
+
