@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XM MICRO | XAUUSD</title>
+</head>
+<body>
+    <h1>XM Micro Account</h1>
+    <p>Target Risk: <strong>$1.00</strong> Fixed</p>
+    
+    <hr>
+
+    <div>
+        <label for="slPips">Enter Stop Loss in Pips:</label><br><br>
+        <input type="number" id="slPips" placeholder="e.g. 20" step="any" min="0.1">
+        <br><br>
+        <button onclick="calculateLotSize()">Calculate Lot Size</button>
+    </div>
+
+    <hr>
+
+    <div id="results" style="display:none;">
+        <h2>Calculation Results</h2>
+        <p><strong>Micro Lot Size:</strong> <span id="resLotSize">--</span></p>
+        <p><strong>Stop Loss:</strong> -$<span id="resDollarRisk">--</span></p>
+        <p><strong>Note:</strong> <span id="resNote">--</span></p>
+    </div>
+
+    <div id="errorBox" style="color: red;"></div>
+
+    <script>
+        /**
+         * Core calculation function based on user constraints:
+         * - Micro Lot: 0.1 to 50.0
+         * - Step increment: 0.01 (e.g., 0.11, 0.12, 0.13...)
+         * - Target Dollar Risk: $1.00 fixed
+         * - 1 Pip value for 0.1 Micro Lot = $0.01
+         * -> Therefore, Pip value for 1.0 Micro Lot = $0.10
+         * -> Pip value for X Micro Lots = X * 0.10 dollars per pip
+         * -> Total Risk = (X * 0.10) * Pips = 1.00
+         * -> X * Pips = 10 -> X = 10 / Pips
+         */
+        function calculateLotSize() {
+            const pipsInput = document.getElementById('slPips').value;
+            const errorBox = document.getElementById('errorBox');
+            const resultsDiv = document.getElementById('results');
+
+            errorBox.innerText = '';
+            resultsDiv.style.display = 'none';
+
+            const pips = parseFloat(pipsInput);
+
+            if (isNaN(pips) || pips <= 0) {
+                errorBox.innerText = 'Please enter a valid positive number for stop loss pips.';
+                return;
+            }
+
+            // Formula derivation:
+            // Risk = Lot Size * (Pips / 0.1) * 0.01 = 1
+            // Let's verify: for 0.1 lot and 10 pips -> 10 pips * ($0.01 / 0.1 lot) * 0.1 lot = $0.10? Wait!
+            // User prompt says: "1 Pips = 0.01$ with 0.1 Micro Lot."
+            // This means 0.1 Micro Lot yields $0.01 per 1 pip move.
+            // So 1 Micro Lot (1.0) yields $0.10 per pip.
+            // To risk $1.00 total with 'pips' Stop Loss:
+            // Dollar Risk = LotSize * (Pips * 0.10) = 1.00
+            // => LotSize = 1.00 / (Pips * 0.10) = 10 / Pips
+            
+            let rawLot = 10 / pips;
+
+            // Round to 2 decimal places as required (steps of 0.01: 0.11, 0.12, etc.)
+            let roundedLot = Math.round(rawLot * 100) / 100;
+
+            // Enforce limits: Min 0.1, Max 50
+            let note = '';
+            if (roundedLot < 0.1) {
+                roundedLot = 0.1;
+                note = 'Calculated lot size was below minimum allowed (0.1). Set to minimum 0.1.';
+            } else if (roundedLot > 50.0) {
+                roundedLot = 50.0;
+                note = 'Calculated lot size exceeded maximum allowed (50.0). Capped at 50.0.';
+            }
+
+            // Calculate exact dollar risk with the final bounded & rounded lot size
+            // Value per pip for roundedLot = roundedLot * 0.10
+            const actualRisk = roundedLot * (pips * 0.10);
+
+            // Display results
+            document.getElementById('resLotSize').innerText = roundedLot.toFixed(2);
+            document.getElementById('resDollarRisk').innerText = actualRisk.toFixed(2);
+            document.getElementById('resNote').innerText = note || 'Fits within standard parameters.';
+            resultsDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
